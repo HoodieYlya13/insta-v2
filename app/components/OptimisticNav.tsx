@@ -3,6 +3,7 @@
 import { useOptimistic, useTransition, Suspense } from "react";
 import Link from "next/link";
 import { logoutAction } from "../actions";
+import { authStore } from "./OptimisticPostItem";
 
 export default function OptimisticNav({
   isConnected: initialIsConnected,
@@ -19,11 +20,14 @@ export default function OptimisticNav({
   );
 
   const handleLogout = () => {
+    authStore.setLoggingOut(true);
+
     startTransition(async () => {
       setOptimisticConnected(false);
       try {
         await logoutAction();
       } catch (error) {
+        authStore.setLoggingOut(false);
         console.error("Logout failed", error);
       }
     });

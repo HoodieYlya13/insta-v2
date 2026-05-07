@@ -1,10 +1,23 @@
 "use client";
-
-import { useOptimistic, useTransition } from "react";
+import { useOptimistic, useTransition, useSyncExternalStore } from "react";
 import Link from "next/link";
 import OptimisticLikeButton from "./OptimisticLikeButton";
 import { deletePostAction } from "@/app/actions";
 import { toast } from "sonner";
+
+let isLoggingOut = false;
+const listeners = new Set<() => void>();
+export const authStore = {
+  subscribe: (callback: () => void) => {
+    listeners.add(callback);
+    return () => listeners.delete(callback);
+  },
+  getSnapshot: () => isLoggingOut,
+  setLoggingOut: (value: boolean) => {
+    isLoggingOut = value;
+    listeners.forEach(l => l());
+  }
+};
 
 export interface Post {
   id: string;
@@ -23,7 +36,8 @@ export default function OptimisticPostItem({
   currentUser: string | null;
   toggleLikeAction: (id: string) => Promise<void>;
 }) {
-  const isAuthor = currentUser === post.authorId;
+  const loggingOut = useSyncExternalStore(authStore.subscribe, authStore.getSnapshot, () => false);
+  const isAuthor = currentUser === post.authorId && !loggingOut;
   const [isPending, startTransition] = useTransition();
 
   const [isDeletedOptimistically, setOptimisticDelete] = useOptimistic(
