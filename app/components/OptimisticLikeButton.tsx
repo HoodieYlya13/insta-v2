@@ -2,7 +2,7 @@
 
 import { useOptimistic, useTransition, useSyncExternalStore } from 'react';
 import { useRouter } from 'next/navigation';
-import { authStore } from './OptimisticPostItem';
+import { authStore } from './Post/authStore';
 
 export default function OptimisticLikeButton({ 
   post, 

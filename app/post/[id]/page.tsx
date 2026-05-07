@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import Image from "next/image";
+import { Post } from "../../components/Post";
 import { getPostById, getCurrentUser } from "../../lib/data";
-import { toggleLikeAction } from "../../actions";
-import OptimisticLikeButton from "../../components/OptimisticLikeButton";
 import { notFound } from "next/navigation";
 
 async function PostContent({ params }: { params: Promise<{ id: string }> }) {
@@ -14,47 +12,27 @@ async function PostContent({ params }: { params: Promise<{ id: string }> }) {
   if (!post) notFound();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 card p-0 overflow-hidden">
-      <div className="bg-muted flex items-center justify-center aspect-square md:aspect-auto relative overflow-hidden">
-        <Image
-          src={post.imageUrl}
-          alt={post.title}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
-          priority
-        />
-      </div>
+    <Post.Root post={post} currentUser={currentUser} className="grid grid-cols-1 md:grid-cols-2 gap-8 card p-0 overflow-hidden">
+      <Post.Media 
+        priority 
+        className="bg-muted flex items-center justify-center aspect-square md:aspect-auto relative overflow-hidden"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+      />
+      
       <div className="p-8 flex flex-col justify-between">
         <div>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="size-10 rounded-full bg-linear-to-tr from-yellow-400 via-red-500 to-purple-600 p-[2px]">
-              <div className="size-full rounded-full bg-primary flex items-center justify-center font-bold text-xs">
-                {post.authorId.slice(0, 2)}
-              </div>
-            </div>
-            <div>
-              <p className="font-bold">{post.authorId}</p>
-              <p className="text-sm text-muted-foreground">
-                Posted 2 hours ago
-              </p>
-            </div>
-          </div>
-          <h1 className="text-2xl font-bold mb-4">{post.title}</h1>
-          <p className="text-muted-foreground leading-relaxed">
+          <Post.Header timestamp="Posted 2 hours ago" className="flex items-center gap-3 mb-6" />
+          <Post.Title as="h1" className="text-2xl font-bold mb-4" />
+          <Post.Description className="text-muted-foreground leading-relaxed">
             This is the full page version of the post. If you see this, it means
             you accessed the URL directly or refreshed the page while the modal
             was open.
-          </p>
+          </Post.Description>
         </div>
 
         <div className="border-t pt-6 mt-6">
           <div className="flex gap-4">
-            <OptimisticLikeButton
-              post={post}
-              isConnected={!!currentUser}
-              toggleLikeAction={toggleLikeAction}
-            />
+            <Post.LikeButton />
             <button className="btn btn-ghost border border-border flex items-center justify-center gap-2 ml-auto">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +52,7 @@ async function PostContent({ params }: { params: Promise<{ id: string }> }) {
           </div>
         </div>
       </div>
-    </div>
+    </Post.Root>
   );
 }
 

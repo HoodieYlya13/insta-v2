@@ -1,6 +1,5 @@
 import OptimisticPostItem from "./OptimisticPostItem";
 import { getPosts, getCurrentUser } from "../lib/data";
-import { toggleLikeAction } from "../actions";
 
 export default async function FeedList({ sort }: { sort: string }) {
   // Simulate network delay for PPR demonstration
@@ -16,7 +15,6 @@ export default async function FeedList({ sort }: { sort: string }) {
           key={post.id}
           post={post}
           currentUser={currentUser}
-          toggleLikeAction={toggleLikeAction}
           priority={index === 0}
         />
       ))}

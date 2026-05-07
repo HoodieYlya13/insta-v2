@@ -4,7 +4,7 @@ import { useOptimistic, useTransition, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { logoutAction } from "../actions";
-import { authStore } from "./OptimisticPostItem";
+import { authStore } from "./Post/authStore";
 import { toast } from "sonner";
 
 export default function OptimisticNav({

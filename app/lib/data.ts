@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { Post } from "../components/OptimisticPostItem";
+import { Post } from "../components/Post/PostContext";
 
 // Simulated persistence (postId liked by current user)
 const USER_LIKES = new Set<string>();

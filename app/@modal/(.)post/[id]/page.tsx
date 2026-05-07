@@ -1,8 +1,6 @@
 import ModalDismissOverlay from "@/app/components/ModalDismissOverlay";
 import { getPostById, getCurrentUser } from "@/app/lib/data";
-import Image from "next/image";
-import { toggleLikeAction } from "@/app/actions";
-import OptimisticLikeButton from "@/app/components/OptimisticLikeButton";
+import { Post } from "@/app/components/Post";
 import { notFound } from "next/navigation";
 
 export default async function PostInterceptedModal({
@@ -20,41 +18,30 @@ export default async function PostInterceptedModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <ModalDismissOverlay />
 
-      <div className="modal-content max-w-2xl! p-0 overflow-hidden flex flex-col md:flex-row h-[500px] relative z-10">
-        <div className="flex-1 bg-black flex items-center justify-center text-8xl relative overflow-hidden">
-          <Image
-            src={post.imageUrl}
-            alt={post.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 500px"
-            priority
-          />
-        </div>
+      <Post.Root 
+        post={post} 
+        currentUser={currentUser} 
+        className="modal-content max-w-2xl! p-0 overflow-hidden flex flex-col md:flex-row h-[500px] relative z-10"
+      >
+        <Post.Media 
+          priority 
+          className="flex-1 bg-black flex items-center justify-center text-8xl relative overflow-hidden"
+          sizes="(max-width: 768px) 100vw, 500px"
+        />
+        
         <div className="w-full md:w-80 pt-6 md:p-6 flex flex-col justify-between bg-card">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="size-10 rounded-full bg-linear-to-tr from-yellow-400 via-red-500 to-purple-600 p-[2px]">
-                <div className="size-full rounded-full bg-primary flex items-center justify-center font-bold text-xs">
-                  {post.authorId.slice(0, 2)}
-                </div>
-              </div>
-              <span className="font-bold text-sm">{post.authorId}</span>
-            </div>
-            <h3 className="font-bold mb-2">{post.title}</h3>
-            <p className="text-sm text-muted-foreground">
+            <Post.Header className="flex items-center gap-2 mb-4" />
+            <Post.Title className="font-bold mb-2" />
+            <Post.Description>
               This is the modal view (intercepted). The URL has changed to
               /post/{id} but we are still on the home page !
-            </p>
+            </Post.Description>
           </div>
 
           <div className="flex flex-col gap-3 border-t border-border mt-2">
             <div className="flex gap-2 mt-2">
-              <OptimisticLikeButton
-                post={post}
-                isConnected={!!currentUser}
-                toggleLikeAction={toggleLikeAction}
-              />
+              <Post.LikeButton />
               <button
                 className="btn btn-ghost border border-border flex items-center justify-center gap-2 text-sm h-10 ml-auto"
                 aria-label="Comment on this post"
@@ -77,7 +64,7 @@ export default async function PostInterceptedModal({
             </div>
           </div>
         </div>
-      </div>
+      </Post.Root>
     </div>
   );
 }
