@@ -7,7 +7,10 @@ interface PostHeaderProps {
   className?: string;
 }
 
-export function PostHeader({ timestamp, className = "flex items-center gap-3 mb-4" }: PostHeaderProps) {
+export function PostHeader({
+  timestamp,
+  className = "flex items-center gap-3 mb-4",
+}: PostHeaderProps) {
   const { post } = usePost();
 
   return (
@@ -19,7 +22,9 @@ export function PostHeader({ timestamp, className = "flex items-center gap-3 mb-
       </div>
       <div>
         <p className="font-bold text-sm">{post.authorId}</p>
-        {timestamp && <p className="text-xs text-muted-foreground">{timestamp}</p>}
+        {timestamp && (
+          <p className="text-xs text-muted-foreground">{timestamp}</p>
+        )}
       </div>
     </div>
   );

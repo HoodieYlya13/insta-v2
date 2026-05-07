@@ -6,7 +6,9 @@ interface PostDeleteProps {
   className?: string;
 }
 
-export function PostDelete({ className = "absolute top-4 right-4 z-10" }: PostDeleteProps) {
+export function PostDelete({
+  className = "absolute top-4 right-4 z-10",
+}: PostDeleteProps) {
   const { isAuthor, isPending, handleDelete } = usePost();
 
   if (!isAuthor) return null;

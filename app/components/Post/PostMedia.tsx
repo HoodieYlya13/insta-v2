@@ -10,11 +10,11 @@ interface PostMediaProps {
   sizes?: string;
 }
 
-export function PostMedia({ 
-  priority = false, 
-  aspectRatio = "square", 
+export function PostMedia({
+  priority = false,
+  aspectRatio = "square",
   className = "w-full bg-muted rounded-lg flex items-center justify-center overflow-hidden relative",
-  sizes = "(max-width: 768px) 100vw, 500px"
+  sizes = "(max-width: 768px) 100vw, 500px",
 }: PostMediaProps) {
   const { post } = usePost();
 

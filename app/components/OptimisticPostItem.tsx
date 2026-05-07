@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { Post } from "./Post";
 import type { Post as PostType } from "./Post/PostContext";

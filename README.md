@@ -40,6 +40,12 @@ Filters (Recent/Oldest) are driven by URL Search Parameters instead of local `us
 - **State Bankruptcy**: While avoided for data refreshing, the "Key Trick" is utilized at the `RootLayout` level. By tying the `<main>` element's `key` to the user's authentication status, we ensure a total UI "reboot" upon login/logout.
 - **Security & Reliability**: This pattern guarantees that no optimistic state (like pending likes or hidden posts) or sensitive UI data leaks between different user sessions, providing a clean slate for every user.
 
+### 8. React Composition Pattern & Context
+The application uses the **React Composition Pattern** to manage complex, shared UI structures like Posts and Auth Forms.
+- **Granular Building Blocks**: Components are broken down into small, composable pieces (e.g., `<Post.Header>`, `<Post.Media>`, `<Auth.Form>`).
+- **JSX Over Props**: We eliminate complex boolean flags (like `isModal` or `isAuthor`) by letting the parent decide which sub-components to render and where.
+- **Context-Powered Logic**: Shared state and logic (like optimistic liking or form submission status) are lifted into Context Providers, allowing inner components to consume them cleanly without prop-drilling.
+
 ## 🛠 Tech Stack
 - **Framework**: Next.js 16.2.5 (App Router)
 - **Library**: React 19.2.4
