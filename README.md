@@ -36,6 +36,10 @@ Filters (Recent/Oldest) are driven by URL Search Parameters instead of local `us
 - **Evolution of Refresh**: While we initially explored the common "Key Trick" (forcing a re-mount by changing a `key` prop) to trigger refreshes, we upgraded to **Concurrent Transitions** using `useTransition` and `router.refresh()`. 
 - **Premium UX**: This approach provides a seamless "Instagram-style" update where the old UI remains interactive and visible while the server streams fresh data in the background, avoiding jarring flashes of loading skeletons.
 
+### 7. The "Key Trick" for Session Hygiene
+- **State Bankruptcy**: While avoided for data refreshing, the "Key Trick" is utilized at the `RootLayout` level. By tying the `<main>` element's `key` to the user's authentication status, we ensure a total UI "reboot" upon login/logout.
+- **Security & Reliability**: This pattern guarantees that no optimistic state (like pending likes or hidden posts) or sensitive UI data leaks between different user sessions, providing a clean slate for every user.
+
 ## 🛠 Tech Stack
 - **Framework**: Next.js 16.2.5 (App Router)
 - **Library**: React 19.2.4

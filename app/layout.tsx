@@ -35,6 +35,18 @@ async function Nav() {
   );
 }
 
+async function SessionHygieneWrapper({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies();
+  const isConnected = cookieStore.has('access_token');
+  const sessionKey = isConnected ? 'auth-user' : 'guest-user';
+
+  return (
+    <main key={sessionKey} className="container mx-auto px-4 py-8">
+      {children}
+    </main>
+  );
+}
+
 export default function RootLayout({
   children,
   modal,
@@ -63,11 +75,15 @@ export default function RootLayout({
           </div>
         </header>
 
-        <main className="container mx-auto px-4 py-8">
-          <Suspense fallback={<div className="animate-pulse bg-muted rounded-lg h-96 w-full" />}>
+        <Suspense fallback={
+          <main className="container mx-auto px-4 py-8">
+            <div className="animate-pulse bg-muted rounded-lg h-96 w-full" />
+          </main>
+        }>
+          <SessionHygieneWrapper>
             {children}
-          </Suspense>
-        </main>
+          </SessionHygieneWrapper>
+        </Suspense>
 
         <Suspense fallback={null}>
           {modal} 
