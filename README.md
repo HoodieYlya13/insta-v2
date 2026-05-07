@@ -2,6 +2,9 @@
 
 This project is a high-level technical demonstration of **Next.js 16** and **React 19** capabilities. It implements modern patterns and "tricks" to achieve a premium, fluid, and ultra-optimized user experience.
 
+> [!IMPORTANT]
+> **Performance Note**: You may notice intentional delays (e.g., 1.5s) when loading the feed or refreshing. These are **simulated API latencies** specifically added to demonstrate **Suspense boundaries**, **PPR streaming**, and **React 19 Transitions**. The application is fundamentally high-performance; these delays allow you to actually see and test the loading states in a local environment.
+
 ## 🚀 Key Features & Best Practices
 
 ### 1. Partial Prerendering (PPR) & Cache Components
@@ -29,8 +32,9 @@ Filters (Recent/Oldest) are driven by URL Search Parameters instead of local `us
 - **Logout Form**: Authentication actions are handled via native `<form>` elements and Server Actions. This ensures the app remains functional even if JavaScript fails to load or execution is delayed.
 - **Action passing**: Server Actions are passed as props to Client Components, keeping business logic close to the server components that define them.
 
-### 6. Component-Level Re-rendering
-- **The Key Trick**: Using the `key` attribute on components within a `RefreshWrapper` to force deep re-fetching of server components without refreshing the entire page.
+### 6. Concurrent Transitions vs. "The Key Trick"
+- **Evolution of Refresh**: While we initially explored the common "Key Trick" (forcing a re-mount by changing a `key` prop) to trigger refreshes, we upgraded to **Concurrent Transitions** using `useTransition` and `router.refresh()`. 
+- **Premium UX**: This approach provides a seamless "Instagram-style" update where the old UI remains interactive and visible while the server streams fresh data in the background, avoiding jarring flashes of loading skeletons.
 
 ## 🛠 Tech Stack
 - **Framework**: Next.js 16.2.5 (App Router)

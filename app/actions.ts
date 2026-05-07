@@ -32,7 +32,7 @@ export async function deletePostAction(postId: string) {
 
     // Simulate a server error for optimistic UI rollback demo
     console.log(`Attempting to delete post ${postId}... but failing.`);
-    return { error: "Oups ! Server has crashed, deletion impossible." };
+    return { error: "Simulating a server error, rollback is handled by optimistic UI." };
   } catch {
     return { error: "An unexpected error occurred during deletion." };
   }

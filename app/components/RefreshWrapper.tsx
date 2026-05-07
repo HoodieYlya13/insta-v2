@@ -1,14 +1,15 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function RefreshWrapper({ children }: { children: React.ReactNode }) {
-  const [key, setKey] = useState(0);
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const handleRefresh = () => {
     startTransition(() => {
-      setKey((prev) => prev + 1);
+      router.refresh();
     });
   };
 
@@ -38,7 +39,7 @@ export default function RefreshWrapper({ children }: { children: React.ReactNode
           {isPending ? 'Refreshing...' : 'Refresh Feed'}
         </button>
       </div>
-      <div key={key}>
+      <div>
         {children}
       </div>
     </div>
