@@ -4,6 +4,7 @@ import { useOptimistic, useTransition } from "react";
 import Link from "next/link";
 import OptimisticLikeButton from "./OptimisticLikeButton";
 import { deletePostAction } from "@/app/actions";
+import { toast } from "sonner";
 
 export interface Post {
   id: string;
@@ -37,7 +38,7 @@ export default function OptimisticPostItem({
       try {
         await deletePostAction(post.id);
       } catch (error) {
-        alert(error instanceof Error ? error.message : "Unknown error");
+        toast.error(error instanceof Error ? error.message : "Unknown error");
       }
     });
   };

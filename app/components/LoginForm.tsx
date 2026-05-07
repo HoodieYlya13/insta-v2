@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { loginAction } from "@/app/actions";
 import { useFormStatus } from "react-dom";
+import { toast } from "sonner";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -51,7 +52,7 @@ export default function LoginForm({ isModal = false }: { isModal?: boolean }) {
 
       router.refresh();
     } catch (error) {
-      alert("Error during login");
+      toast.error("Error during login");
     }
   };
 

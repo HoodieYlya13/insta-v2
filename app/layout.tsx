@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { cookies } from 'next/headers';
 import { logoutAction } from './actions';
+import { Toaster } from 'sonner';
 import './globals.css';
 
 export const metadata = {
@@ -68,6 +69,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased min-h-screen">
+        <Toaster position="top-center" richColors theme="dark" />
         <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-md">
           <div className="container mx-auto px-4 h-16 flex items-center justify-between">
             <Link href="/" className="text-2xl font-black bg-linear-to-r from-primary to-purple-600 bg-clip-text text-transparent flex items-center gap-2">
