@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { Toaster } from 'sonner';
+import FeedSkeleton from './components/FeedSkeleton';
 import OptimisticNav from './components/OptimisticNav';
 import './globals.css';
 
@@ -75,11 +76,7 @@ export default function RootLayout({
           </div>
         </header>
 
-        <Suspense fallback={
-          <main className="container mx-auto px-4 py-8">
-            <div className="animate-pulse bg-muted rounded-lg h-96 w-full" />
-          </main>
-        }>
+        <Suspense fallback={<FeedSkeleton />}>
           <SessionHygieneWrapper>
             {children}
           </SessionHygieneWrapper>
