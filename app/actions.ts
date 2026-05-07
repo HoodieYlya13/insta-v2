@@ -21,6 +21,7 @@ export async function loginAction() {
 export async function logoutAction() {
   const cookieStore = await cookies();
   cookieStore.delete("access_token");
+  revalidatePath("/", "layout");
   redirect("/");
 }
 

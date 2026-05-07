@@ -1,6 +1,7 @@
 "use client";
 
 import { useOptimistic, useTransition, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { logoutAction } from "../actions";
 import { authStore } from "./OptimisticPostItem";
@@ -13,12 +14,15 @@ export default function OptimisticNav({
   isConnected: boolean;
   usernameFetcher: React.ReactNode;
 }) {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
-    if (!initialIsConnected && authStore.getSnapshot() === true)
+    if (!initialIsConnected && authStore.getSnapshot() === true) {
       authStore.setLoggingOut(false);
-  }, [initialIsConnected]);
+      router.refresh();
+    }
+  }, [initialIsConnected, router]);
 
   useEffect(() => {
     if (!isPending && initialIsConnected && authStore.getSnapshot() === true)
