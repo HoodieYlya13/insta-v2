@@ -1,4 +1,8 @@
 import ModalDismissOverlay from '@/app/components/ModalDismissOverlay';
+import { getPostById, getCurrentUser } from '@/app/lib/data';
+import { toggleLikeAction } from '@/app/actions';
+import OptimisticLikeButton from '@/app/components/OptimisticLikeButton';
+import { notFound } from 'next/navigation';
 
 export default async function PhotoInterceptedModal({
   params,
@@ -6,6 +10,10 @@ export default async function PhotoInterceptedModal({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const post = await getPostById(id);
+  const currentUser = await getCurrentUser();
+
+  if (!post) notFound();
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -33,9 +41,9 @@ export default async function PhotoInterceptedModal({
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-full bg-primary" />
-              <span className="font-bold text-sm">User{parseInt(id) % 3}</span>
+              <span className="font-bold text-sm">{post.authorId}</span>
             </div>
-            <h3 className="font-bold mb-2">Photo #{id}</h3>
+            <h3 className="font-bold mb-2">{post.title}</h3>
             <p className="text-sm text-muted-foreground">
               This is the modal view (intercepted). The URL has changed to
               /photo/{id} but we are still on the home page !
@@ -43,11 +51,11 @@ export default async function PhotoInterceptedModal({
           </div>
 
           <div className="flex flex-col gap-2">
-            <button
-              className="btn btn-primary w-full mt-4"
-            >
-              Like photo
-            </button>
+            <OptimisticLikeButton 
+              post={post} 
+              isConnected={!!currentUser} 
+              toggleLikeAction={toggleLikeAction} 
+            />
           </div>
         </div>
       </div>

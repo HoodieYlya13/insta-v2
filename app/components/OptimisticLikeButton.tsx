@@ -1,7 +1,8 @@
 'use client';
 
-import { useOptimistic, useTransition } from 'react';
+import { useOptimistic, useTransition, useSyncExternalStore } from 'react';
 import { useRouter } from 'next/navigation';
+import { authStore } from './OptimisticPostItem';
 
 export default function OptimisticLikeButton({ 
   post, 
@@ -13,10 +14,13 @@ export default function OptimisticLikeButton({
   toggleLikeAction: (id: string) => Promise<void> 
 }) {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const loggingOut = useSyncExternalStore(authStore.subscribe, authStore.getSnapshot, () => false);
+  const [, startTransition] = useTransition();
+
+  const isConnectedEffective = isConnected && !loggingOut;
 
   const [optimisticState, toggleOptimisticLike] = useOptimistic(
-    { likes: post.likes, isLiked: post.isLiked },
+    { likes: post.likes, isLiked: post.isLiked && !loggingOut },
     (state) => ({
       likes: state.isLiked ? state.likes - 1 : state.likes + 1,
       isLiked: !state.isLiked
@@ -24,7 +28,7 @@ export default function OptimisticLikeButton({
   );
 
   const handleLike = () => {
-    if (!isConnected) {
+    if (!isConnectedEffective) {
       router.push('/login');
       return;
     }

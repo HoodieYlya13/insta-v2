@@ -1,5 +1,10 @@
 "use client";
-import { useOptimistic, useTransition, useSyncExternalStore } from "react";
+import {
+  useOptimistic,
+  useTransition,
+  useSyncExternalStore,
+  useEffect,
+} from "react";
 import Link from "next/link";
 import OptimisticLikeButton from "./OptimisticLikeButton";
 import { deletePostAction } from "@/app/actions";
@@ -15,8 +20,8 @@ export const authStore = {
   getSnapshot: () => isLoggingOut,
   setLoggingOut: (value: boolean) => {
     isLoggingOut = value;
-    listeners.forEach(l => l());
-  }
+    listeners.forEach((l) => l());
+  },
 };
 
 export interface Post {
@@ -36,7 +41,17 @@ export default function OptimisticPostItem({
   currentUser: string | null;
   toggleLikeAction: (id: string) => Promise<void>;
 }) {
-  const loggingOut = useSyncExternalStore(authStore.subscribe, authStore.getSnapshot, () => false);
+  const loggingOut = useSyncExternalStore(
+    authStore.subscribe,
+    authStore.getSnapshot,
+    () => false,
+  );
+
+  useEffect(() => {
+    if (currentUser === null && authStore.getSnapshot() === true)
+      authStore.setLoggingOut(false);
+  }, [currentUser]);
+
   const isAuthor = currentUser === post.authorId && !loggingOut;
   const [isPending, startTransition] = useTransition();
 

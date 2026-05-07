@@ -1,8 +1,16 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
+import { getPostById, getCurrentUser } from '../../lib/data';
+import { toggleLikeAction } from '../../actions';
+import OptimisticLikeButton from '../../components/OptimisticLikeButton';
+import { notFound } from 'next/navigation';
 
 async function PhotoContent({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const post = await getPostById(id);
+  const currentUser = await getCurrentUser();
+
+  if (!post) notFound();
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 card p-0 overflow-hidden">
@@ -17,11 +25,11 @@ async function PhotoContent({ params }: { params: Promise<{ id: string }> }) {
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-primary" />
             <div>
-              <p className="font-bold">User{parseInt(id) % 3}</p>
+              <p className="font-bold">{post.authorId}</p>
               <p className="text-sm text-muted-foreground">Posted 2 hours ago</p>
             </div>
           </div>
-          <h1 className="text-2xl font-bold mb-4">Photo details #{id}</h1>
+          <h1 className="text-2xl font-bold mb-4">{post.title}</h1>
           <p className="text-muted-foreground leading-relaxed">
             This is the full page version of the photo. If you see this, it means you accessed the URL directly or refreshed the page while the modal was open.
           </p>
@@ -29,12 +37,11 @@ async function PhotoContent({ params }: { params: Promise<{ id: string }> }) {
         
         <div className="border-t pt-6 mt-6">
           <div className="flex gap-4">
-            <button className="btn btn-primary flex-1 flex items-center justify-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
-              </svg>
-              Like
-            </button>
+            <OptimisticLikeButton 
+              post={post} 
+              isConnected={!!currentUser} 
+              toggleLikeAction={toggleLikeAction} 
+            />
             <button className="btn btn-ghost flex-1 border border-border flex items-center justify-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>

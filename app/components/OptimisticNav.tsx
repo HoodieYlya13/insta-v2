@@ -1,9 +1,10 @@
 "use client";
 
-import { useOptimistic, useTransition, Suspense } from "react";
+import { useOptimistic, useTransition, useEffect } from "react";
 import Link from "next/link";
 import { logoutAction } from "../actions";
 import { authStore } from "./OptimisticPostItem";
+import { toast } from "sonner";
 
 export default function OptimisticNav({
   isConnected: initialIsConnected,
@@ -14,9 +15,19 @@ export default function OptimisticNav({
 }) {
   const [isPending, startTransition] = useTransition();
 
+  useEffect(() => {
+    if (!initialIsConnected && authStore.getSnapshot() === true)
+      authStore.setLoggingOut(false);
+  }, [initialIsConnected]);
+
+  useEffect(() => {
+    if (!isPending && initialIsConnected && authStore.getSnapshot() === true)
+      authStore.setLoggingOut(false);
+  }, [isPending, initialIsConnected]);
+
   const [optimisticConnected, setOptimisticConnected] = useOptimistic(
     initialIsConnected,
-    () => false
+    () => false,
   );
 
   const handleLogout = () => {
@@ -26,9 +37,10 @@ export default function OptimisticNav({
       setOptimisticConnected(false);
       try {
         await logoutAction();
-      } catch (error) {
-        authStore.setLoggingOut(false);
-        console.error("Logout failed", error);
+      } catch (error: unknown) {
+        if (error instanceof Error && error.message.includes("NEXT_REDIRECT"))
+          return;
+        toast.error("Logout failed. Please try again.");
       }
     });
   };

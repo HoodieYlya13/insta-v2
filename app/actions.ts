@@ -3,6 +3,9 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { toggleLike } from "./lib/data";
+import { revalidatePath } from "next/cache";
+
 export async function loginAction() {
   // Simulate API call delay
   await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -23,4 +26,9 @@ export async function deletePostAction(postId: string) {
   // Simulate a server error for optimistic UI rollback demo
   console.log(`Attempting to delete post ${postId}... but failing.`);
   throw new Error("Oups ! Server has crashed, deletion impossible.");
+}
+
+export async function toggleLikeAction(postId: string) {
+  await toggleLike(postId);
+  revalidatePath("/");
 }
