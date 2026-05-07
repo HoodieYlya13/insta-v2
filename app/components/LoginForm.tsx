@@ -44,16 +44,17 @@ export default function LoginForm({ isModal = false }: { isModal?: boolean }) {
   const router = useRouter();
 
   const handleAuth = async () => {
-    try {
-      await loginAction();
+    const result = await loginAction();
 
-      if (isModal) router.back();
-      else router.push("/");
-
-      router.refresh();
-    } catch (error) {
-      toast.error("Error during login");
+    if (result?.error) {
+      toast.error(result.error);
+      return;
     }
+
+    if (isModal) router.back();
+    else router.push("/");
+
+    router.refresh();
   };
 
   return (
@@ -88,7 +89,7 @@ export default function LoginForm({ isModal = false }: { isModal?: boolean }) {
       </form>
 
       <div className="mt-6 text-center text-sm text-muted-foreground">
-        Don't have an account ?{" "}
+        Don&apos;t have an account ?{" "}
         <span className="text-primary font-medium cursor-pointer">Sign up</span>
       </div>
     </div>

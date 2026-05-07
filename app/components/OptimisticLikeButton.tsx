@@ -11,7 +11,7 @@ export default function OptimisticLikeButton({
 }: { 
   post: { id: string, likes: number, isLiked: boolean }, 
   isConnected: boolean, 
-  toggleLikeAction: (id: string) => Promise<void> 
+  toggleLikeAction: (id: string) => Promise<{ success?: boolean; error?: string }> 
 }) {
   const router = useRouter();
   const loggingOut = useSyncExternalStore(authStore.subscribe, authStore.getSnapshot, () => false);

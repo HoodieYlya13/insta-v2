@@ -39,7 +39,7 @@ export default function OptimisticPostItem({
 }: {
   post: Post;
   currentUser: string | null;
-  toggleLikeAction: (id: string) => Promise<void>;
+  toggleLikeAction: (id: string) => Promise<{ success?: boolean; error?: string }>;
 }) {
   const loggingOut = useSyncExternalStore(
     authStore.subscribe,
@@ -64,11 +64,8 @@ export default function OptimisticPostItem({
     startTransition(async () => {
       setOptimisticDelete(true);
 
-      try {
-        await deletePostAction(post.id);
-      } catch (error) {
-        toast.error(error instanceof Error ? error.message : "Unknown error");
-      }
+      const result = await deletePostAction(post.id);
+      if (result?.error) toast.error(result.error);
     });
   };
 

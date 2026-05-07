@@ -37,7 +37,7 @@ export default function OptimisticNav({
       setOptimisticConnected(false);
       try {
         await logoutAction();
-      } catch (error: unknown) {
+      } catch (error) {
         if (error instanceof Error && error.message.includes("NEXT_REDIRECT"))
           return;
         toast.error("Logout failed. Please try again.");

@@ -7,10 +7,15 @@ import { toggleLike } from "./lib/data";
 import { revalidatePath } from "next/cache";
 
 export async function loginAction() {
-  // Simulate API call delay
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  const cookieStore = await cookies();
-  cookieStore.set("access_token", "access_token", { httpOnly: true });
+  try {
+    // Simulate API call delay
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const cookieStore = await cookies();
+    cookieStore.set("access_token", "access_token", { httpOnly: true });
+    return { success: true };
+  } catch {
+    return { error: "Login failed. Please check your credentials." };
+  }
 }
 
 export async function logoutAction() {
@@ -20,15 +25,24 @@ export async function logoutAction() {
 }
 
 export async function deletePostAction(postId: string) {
-  // Simulate processing delay
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  try {
+    // Simulate processing delay
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  // Simulate a server error for optimistic UI rollback demo
-  console.log(`Attempting to delete post ${postId}... but failing.`);
-  throw new Error("Oups ! Server has crashed, deletion impossible.");
+    // Simulate a server error for optimistic UI rollback demo
+    console.log(`Attempting to delete post ${postId}... but failing.`);
+    return { error: "Oups ! Server has crashed, deletion impossible." };
+  } catch {
+    return { error: "An unexpected error occurred during deletion." };
+  }
 }
 
 export async function toggleLikeAction(postId: string) {
-  await toggleLike(postId);
-  revalidatePath("/");
+  try {
+    await toggleLike(postId);
+    revalidatePath("/");
+    return { success: true };
+  } catch {
+    return { error: "Failed to update like status." };
+  }
 }
