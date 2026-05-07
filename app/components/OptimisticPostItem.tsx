@@ -136,7 +136,7 @@ export default function OptimisticPostItem({
 
       <h4 className="text-lg font-medium mb-4">{post.title}</h4>
 
-      <Link href={`/photo/${post.id}`} scroll={false} aria-label={`View photo: ${post.title}`}>
+      <Link href={`/post/${post.id}`} scroll={false} aria-label={`View post: ${post.title}`}>
         <div className="aspect-square w-full bg-muted rounded-lg flex items-center justify-center cursor-pointer mb-4 hover:scale-[1.02] transition-transform overflow-hidden relative">
           <Image 
             src={post.imageUrl} 

@@ -10,7 +10,7 @@ This project is a high-level technical demonstration of **Next.js 16** and **Rea
 ### 1. Partial Prerendering (PPR) & Cache Components
 The app utilizes the new `cacheComponents: true` model from Next.js 16.
 - **Static Shell**: Headers, titles, and navigation are pre-rendered as static HTML.
-- **Dynamic Holes**: Real-time data like user authentication status and the photo feed are streamed into the shell using `Suspense` boundaries.
+- **Dynamic Holes**: Real-time data like user authentication status and the posts feed are streamed into the shell using `Suspense` boundaries.
 
 ### 2. React 19 Optimistic UI
 Leveraging the `useOptimistic` hook for instant feedback:
@@ -19,9 +19,9 @@ Leveraging the `useOptimistic` hook for instant feedback:
 - **Rapid Toggling**: The UI remains interactive even while server actions are pending, handling multiple queued updates correctly.
 
 ### 3. The "Instagram Trick" (Intercepting & Parallel Routes)
-Sophisticated routing patterns using `@modal` and `(.)photo` markers.
-- **Soft Navigation**: Clicking a photo in the feed opens it in a modal without a full page reload, while updating the URL.
-- **Hard Navigation**: Refreshing the page or sharing the link loads a dedicated full-page view of the photo.
+Sophisticated routing patterns using `@modal` and `(.)post` markers.
+- **Soft Navigation**: Clicking a post in the feed opens it in a modal without a full page reload, while updating the URL.
+- **Hard Navigation**: Refreshing the page or sharing the link loads a dedicated full-page view of the post.
 
 ### 4. URL as State Management
 Filters (Recent/Oldest) are driven by URL Search Parameters instead of local `useState`.

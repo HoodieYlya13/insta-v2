@@ -26,7 +26,7 @@ export default function Error({
       </div>
       <h2 className="text-2xl font-bold mb-2">Oops ! Something went wrong.</h2>
       <p className="text-muted-foreground mb-8 max-w-md">
-        We couldn&apos;t load the photo feed. This may be due to a connection problem or a temporary server error.
+        We couldn&apos;t load the posts feed. This may be due to a connection problem or a temporary server error.
       </p>
       <button
         onClick={() => reset()}

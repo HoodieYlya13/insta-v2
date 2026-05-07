@@ -10,24 +10,7 @@ async function DynamicFeed({ searchParams }: { searchParams: Promise<{ sort?: st
   const currentSort = sort || 'desc';
 
   return (
-    <Suspense key={currentSort} fallback={
-      <div className="grid grid-cols-1 max-w-xl mx-auto gap-8 mt-4">
-        {[1, 2, 3].map((i) => (
-          <div key={i} className="card p-6 animate-pulse">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="size-10 rounded-full bg-muted" />
-              <div className="space-y-2">
-                <div className="h-4 w-24 bg-muted rounded" />
-                <div className="h-3 w-16 bg-muted rounded" />
-              </div>
-            </div>
-            <div className="h-6 w-3/4 bg-muted rounded mb-4" />
-            <div className="aspect-square w-full bg-muted rounded-lg mb-4" />
-            <div className="h-10 w-full bg-muted rounded" />
-          </div>
-        ))}
-      </div>
-    }>
+    <Suspense key={currentSort} fallback={<FeedSkeleton />}>
       <FeedList sort={currentSort} />
     </Suspense>
   );

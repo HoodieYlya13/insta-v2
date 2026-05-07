@@ -14,7 +14,7 @@ export default function NotFound() {
       </div>
       <h1 className="text-4xl font-black mb-4 tracking-tight">Oups ! Page introuvable.</h1>
       <p className="text-muted-foreground mb-10 max-w-md text-lg">
-        The photo or page you are looking for seems to have disappeared into the cloud.
+        The post or page you are looking for seems to have disappeared into the cloud.
       </p>
       <Link
         href="/"

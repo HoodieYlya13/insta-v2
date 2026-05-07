@@ -63,7 +63,7 @@ export default function LoginForm({ isModal = false }: { isModal?: boolean }) {
         <h2 className="text-3xl font-bold bg-linear-to-r from-primary to-purple-600 bg-clip-text text-transparent">
           InstaV2
         </h2>
-        <p className="text-muted-foreground mt-2">Login to see photos</p>
+        <p className="text-muted-foreground mt-2">Login to see posts</p>
       </div>
 
       <form action={handleAuth} className="space-y-4">

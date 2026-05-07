@@ -5,7 +5,7 @@ import { toggleLikeAction } from '@/app/actions';
 import OptimisticLikeButton from '@/app/components/OptimisticLikeButton';
 import { notFound } from 'next/navigation';
 
-export default async function PhotoInterceptedModal({
+export default async function PostInterceptedModal({
   params,
 }: {
   params: Promise<{ id: string }>;
@@ -40,7 +40,7 @@ export default async function PhotoInterceptedModal({
             <h3 className="font-bold mb-2">{post.title}</h3>
             <p className="text-sm text-muted-foreground">
               This is the modal view (intercepted). The URL has changed to
-              /photo/{id} but we are still on the home page !
+              /post/{id} but we are still on the home page !
             </p>
           </div>
 

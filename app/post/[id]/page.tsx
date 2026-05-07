@@ -6,7 +6,7 @@ import { toggleLikeAction } from '../../actions';
 import OptimisticLikeButton from '../../components/OptimisticLikeButton';
 import { notFound } from 'next/navigation';
 
-async function PhotoContent({ params }: { params: Promise<{ id: string }> }) {
+async function PostContent({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const post = await getPostById(id);
   const currentUser = await getCurrentUser();
@@ -36,7 +36,7 @@ async function PhotoContent({ params }: { params: Promise<{ id: string }> }) {
           </div>
           <h1 className="text-2xl font-bold mb-4">{post.title}</h1>
           <p className="text-muted-foreground leading-relaxed">
-            This is the full page version of the photo. If you see this, it means you accessed the URL directly or refreshed the page while the modal was open.
+            This is the full page version of the post. If you see this, it means you accessed the URL directly or refreshed the page while the modal was open.
           </p>
         </div>
         
@@ -60,7 +60,7 @@ async function PhotoContent({ params }: { params: Promise<{ id: string }> }) {
   );
 }
 
-export default function PhotoPage({ params }: { params: Promise<{ id: string }> }) {
+export default function PostPage({ params }: { params: Promise<{ id: string }> }) {
   return (
     <div className="max-w-4xl mx-auto py-12">
       <Link href="/" className="btn btn-ghost mb-8 flex items-center gap-2 w-fit">
@@ -72,10 +72,10 @@ export default function PhotoPage({ params }: { params: Promise<{ id: string }> 
       
       <Suspense fallback={
         <div className="card h-[500px] animate-pulse flex items-center justify-center">
-          <div className="text-muted-foreground">Loading photo...</div>
+          <div className="text-muted-foreground">Loading post...</div>
         </div>
       }>
-        <PhotoContent params={params} />
+        <PostContent params={params} />
       </Suspense>
     </div>
   );
