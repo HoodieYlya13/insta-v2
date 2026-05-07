@@ -2,6 +2,8 @@ import { Suspense } from 'react';
 import FeedList from './components/FeedList';
 import FilterButtons from './components/FilterButtons';
 import RefreshWrapper from './components/RefreshWrapper';
+import SessionHygieneWrapper from './components/SessionHygieneWrapper';
+import FeedSkeleton from './components/FeedSkeleton';
 
 async function DynamicFeed({ searchParams }: { searchParams: Promise<{ sort?: string }> }) {
   const { sort } = await searchParams;
@@ -54,7 +56,11 @@ export default function HomePage({
       </div>
 
       <RefreshWrapper>
-        <DynamicFeed searchParams={searchParams} />
+        <Suspense fallback={<FeedSkeleton />}>
+          <SessionHygieneWrapper>
+            <DynamicFeed searchParams={searchParams} />
+          </SessionHygieneWrapper>
+        </Suspense>
       </RefreshWrapper>
     </div>
   );

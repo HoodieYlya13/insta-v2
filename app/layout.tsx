@@ -2,7 +2,6 @@ import { Suspense } from 'react';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { Toaster } from 'sonner';
-import FeedSkeleton from './components/FeedSkeleton';
 import OptimisticNav from './components/OptimisticNav';
 import './globals.css';
 
@@ -36,18 +35,6 @@ async function Nav() {
   );
 }
 
-async function SessionHygieneWrapper({ children }: { children: React.ReactNode }) {
-  const cookieStore = await cookies();
-  const isConnected = cookieStore.has('access_token');
-  const sessionKey = isConnected ? 'auth-user' : 'guest-user';
-
-  return (
-    <main key={sessionKey} className="container mx-auto px-4 py-8">
-      {children}
-    </main>
-  );
-}
-
 export default function RootLayout({
   children,
   modal,
@@ -76,11 +63,9 @@ export default function RootLayout({
           </div>
         </header>
 
-        <Suspense fallback={<FeedSkeleton />}>
-          <SessionHygieneWrapper>
-            {children}
-          </SessionHygieneWrapper>
-        </Suspense>
+        <main className="container mx-auto px-4 py-8">
+          {children}
+        </main>
 
         <Suspense fallback={null}>
           {modal} 
