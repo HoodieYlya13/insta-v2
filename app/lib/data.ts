@@ -4,13 +4,48 @@ import { Post } from "../components/OptimisticPostItem";
 // Simulated persistence (postId liked by current user)
 const USER_LIKES = new Set<string>();
 
-const DUMMY_POSTS: Post[] = Array.from({ length: 10 }).map((_, i) => ({
-  id: i.toString(),
-  title: `✨ Magic moment #${i + 1} ! An unforgettable day spent exploring the wonders of technology. #InstaV2 #React19`,
-  likes: 12 + i * 2,
-  authorId: `User${i % 3}`,
-  isLiked: false,
-}));
+const DUMMY_POSTS: Post[] = [
+  {
+    id: "0",
+    title: "✨ Exploring the future of technology in a state-of-the-art lab. The blue interfaces are just magical! #Tech #Innovation",
+    likes: 124,
+    authorId: "HY13dev",
+    isLiked: false,
+    imageUrl: "/posts/tech.png",
+  },
+  {
+    id: "1",
+    title: "🌿 Minimalist mornings. There's something so peaceful about a clean workspace and natural light. #Workspace #Design",
+    likes: 89,
+    authorId: "User0",
+    isLiked: false,
+    imageUrl: "/posts/minimalist.png",
+  },
+  {
+    id: "2",
+    title: "⛰️ Caught this breathtaking sunset over the mountains today. Nature never ceases to amaze me. #Nature #Photography",
+    likes: 245,
+    authorId: "User1",
+    isLiked: false,
+    imageUrl: "/posts/nature.png",
+  },
+  {
+    id: "3",
+    title: "⚡ Coding session in the zone. React 19 and Next.js 16 are absolute game changers for DX. #Coding #React",
+    likes: 56,
+    authorId: "User2",
+    isLiked: false,
+    imageUrl: "/posts/coding.png",
+  },
+  {
+    id: "4",
+    title: "🍵 Sunday vibes. Taking a moment to appreciate the small things in life. #Sunday #Minimalist",
+    likes: 112,
+    authorId: "HY13dev",
+    isLiked: false,
+    imageUrl: "/posts/lifestyle.png",
+  },
+];
 
 export async function getPosts(sort: string = "desc") {
   const currentUser = await getCurrentUser();
@@ -42,7 +77,7 @@ export async function getPostById(id: string) {
 export async function getCurrentUser() {
   const cookieStore = await cookies();
   const hasAccessToken = cookieStore.has("access_token");
-  return hasAccessToken ? "User0" : null;
+  return hasAccessToken ? "HY13dev" : null;
 }
 
 export async function toggleLike(postId: string) {

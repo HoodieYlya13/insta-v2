@@ -11,12 +11,13 @@ export default async function FeedList({ sort }: { sort: string }) {
 
   return (
     <div className="grid grid-cols-1 max-w-xl mx-auto gap-8">
-      {posts.map((post) => (
+      {posts.map((post, index) => (
         <OptimisticPostItem
           key={post.id}
           post={post}
           currentUser={currentUser}
           toggleLikeAction={toggleLikeAction}
+          priority={index === 0}
         />
       ))}
     </div>

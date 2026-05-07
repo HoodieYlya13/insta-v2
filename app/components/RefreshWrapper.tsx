@@ -19,6 +19,7 @@ export default function RefreshWrapper({ children }: { children: React.ReactNode
         <button 
           onClick={handleRefresh}
           disabled={isPending}
+          aria-label={isPending ? "Refreshing the feed" : "Refresh the feed"}
           className="btn btn-ghost text-sm flex gap-2 items-center"
         >
           <svg 

@@ -9,6 +9,7 @@ import Link from "next/link";
 import OptimisticLikeButton from "./OptimisticLikeButton";
 import { deletePostAction } from "@/app/actions";
 import { toast } from "sonner";
+import Image from "next/image";
 
 let isLoggingOut = false;
 const listeners = new Set<() => void>();
@@ -30,16 +31,19 @@ export interface Post {
   likes: number;
   authorId: string;
   isLiked: boolean;
+  imageUrl: string;
 }
 
 export default function OptimisticPostItem({
   post,
   currentUser,
   toggleLikeAction,
+  priority = false,
 }: {
   post: Post;
   currentUser: string | null;
   toggleLikeAction: (id: string) => Promise<{ success?: boolean; error?: string }>;
+  priority?: boolean;
 }) {
   const loggingOut = useSyncExternalStore(
     authStore.subscribe,
@@ -79,7 +83,8 @@ export default function OptimisticPostItem({
             type="submit"
             disabled={isPending}
             className="p-2 bg-red-50 text-red-500 rounded-full hover:bg-red-500 hover:text-white transition-colors cursor-pointer"
-            title="Supprimer mon post"
+            aria-label="Delete my post"
+            title="Delete my post"
           >
             {isPending ? (
               <svg
@@ -131,28 +136,16 @@ export default function OptimisticPostItem({
 
       <h4 className="text-lg font-medium mb-4">{post.title}</h4>
 
-      <Link href={`/photo/${post.id}`} scroll={false}>
-        <div className="aspect-square w-full bg-muted rounded-lg flex items-center justify-center cursor-pointer mb-4 hover:scale-[1.02] transition-transform overflow-hidden">
-          <div className="text-muted-foreground flex flex-col items-center">
-            <span className="text-4xl mb-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="64"
-                height="64"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-muted-foreground/50"
-              >
-                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
-                <circle cx="12" cy="13" r="3"></circle>
-              </svg>
-            </span>
-            <span className="text-sm font-medium">View photo</span>
-          </div>
+      <Link href={`/photo/${post.id}`} scroll={false} aria-label={`View photo: ${post.title}`}>
+        <div className="aspect-square w-full bg-muted rounded-lg flex items-center justify-center cursor-pointer mb-4 hover:scale-[1.02] transition-transform overflow-hidden relative">
+          <Image 
+            src={post.imageUrl} 
+            alt={post.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 500px"
+            priority={priority}
+          />
         </div>
       </Link>
 
@@ -162,7 +155,10 @@ export default function OptimisticPostItem({
           isConnected={!!currentUser}
           toggleLikeAction={toggleLikeAction}
         />
-        <button className="btn btn-ghost text-sm text-muted-foreground flex items-center gap-2">
+        <button 
+          className="btn btn-ghost text-sm text-muted-foreground flex items-center gap-2"
+          aria-label="Comment on this post"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"

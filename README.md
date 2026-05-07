@@ -15,7 +15,7 @@ The app utilizes the new `cacheComponents: true` model from Next.js 16.
 ### 2. React 19 Optimistic UI
 Leveraging the `useOptimistic` hook for instant feedback:
 - **Likes**: Toggling likes updates the UI immediately. If the server fails, it automatically rolls back.
-- **Deletions**: Deleting a post (simulated for `User0`) hides it instantly. If the simulated server action throws an error, the post reappears seamlessly.
+- **Deletions**: Deleting a post (simulated for `HY13dev`) hides it instantly. If the simulated server action throws an error, the post reappears seamlessly.
 - **Rapid Toggling**: The UI remains interactive even while server actions are pending, handling multiple queued updates correctly.
 
 ### 3. The "Instagram Trick" (Intercepting & Parallel Routes)

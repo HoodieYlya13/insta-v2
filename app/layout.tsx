@@ -16,7 +16,7 @@ async function UsernameFetcher() {
   await new Promise((resolve) => setTimeout(resolve, 2000));
   const cookieStore = await cookies();
   const token = cookieStore.get('access_token')?.value;
-  return <span>{token ? "User0" : "Guest"}</span>;
+  return <span>{token ? "HY13dev" : "Guest"}</span>;
 }
 
 async function Nav() {

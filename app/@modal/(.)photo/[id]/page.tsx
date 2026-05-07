@@ -1,5 +1,6 @@
 import ModalDismissOverlay from '@/app/components/ModalDismissOverlay';
 import { getPostById, getCurrentUser } from '@/app/lib/data';
+import Image from 'next/image';
 import { toggleLikeAction } from '@/app/actions';
 import OptimisticLikeButton from '@/app/components/OptimisticLikeButton';
 import { notFound } from 'next/navigation';
@@ -20,22 +21,15 @@ export default async function PhotoInterceptedModal({
       <ModalDismissOverlay />
       
       <div className="modal-content max-w-2xl! p-0 overflow-hidden flex flex-col md:flex-row h-[500px] relative z-10">
-        <div className="flex-1 bg-black flex items-center justify-center text-8xl">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="64"
-            height="64"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="text-muted-foreground/50"
-          >
-            <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
-            <circle cx="12" cy="13" r="3"></circle>
-          </svg>
+        <div className="flex-1 bg-black flex items-center justify-center text-8xl relative overflow-hidden">
+          <Image 
+            src={post.imageUrl} 
+            alt={post.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 500px"
+            priority
+          />
         </div>
         <div className="w-full md:w-80 p-6 flex flex-col justify-between bg-card">
           <div>

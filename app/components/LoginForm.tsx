@@ -73,7 +73,7 @@ export default function LoginForm({ isModal = false }: { isModal?: boolean }) {
             type="email"
             placeholder="user@example.com"
             className="w-full p-3 rounded-lg border border-border bg-background focus:ring-2 focus:ring-primary outline-none transition-all"
-            defaultValue="user0@insta.v2"
+            defaultValue="HY13dev@insta.v2"
           />
         </div>
         <div>
