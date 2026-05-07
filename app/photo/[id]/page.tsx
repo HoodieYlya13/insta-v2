@@ -6,7 +6,7 @@ async function PhotoContent({ params }: { params: Promise<{ id: string }> }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 card p-0 overflow-hidden">
-      <div className="aspect-square bg-muted flex items-center justify-center">
+      <div className="bg-muted flex items-center justify-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground/50">
           <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
           <circle cx="12" cy="13" r="3"></circle>

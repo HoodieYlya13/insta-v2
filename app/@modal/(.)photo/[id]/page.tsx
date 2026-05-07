@@ -1,22 +1,17 @@
-"use client";
+import ModalDismissOverlay from '@/app/components/ModalDismissOverlay';
 
-import { use } from "react";
-import { useRouter } from "next/navigation";
-
-export default function PhotoInterceptedModal({
+export default async function PhotoInterceptedModal({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const router = useRouter();
-  const { id } = use(params);
+  const { id } = await params;
 
   return (
-    <div className="modal-overlay" onClick={() => router.back()}>
-      <div
-        className="modal-content max-w-2xl! p-0 overflow-hidden flex flex-col md:flex-row h-[500px]"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <ModalDismissOverlay />
+      
+      <div className="modal-content max-w-2xl! p-0 overflow-hidden flex flex-col md:flex-row h-[500px] relative z-10">
         <div className="flex-1 bg-black flex items-center justify-center text-8xl">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -47,12 +42,13 @@ export default function PhotoInterceptedModal({
             </p>
           </div>
 
-          <button
-            onClick={() => router.back()}
-            className="btn btn-primary w-full mt-4"
-          >
-            Close modal
-          </button>
+          <div className="flex flex-col gap-2">
+            <button
+              className="btn btn-primary w-full mt-4"
+            >
+              Like photo
+            </button>
+          </div>
         </div>
       </div>
     </div>
