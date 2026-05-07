@@ -123,8 +123,8 @@ export default function OptimisticPostItem({
       )}
 
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-10 h-10 rounded-full bg-linear-to-tr from-yellow-400 via-red-500 to-purple-600 p-[2px]">
-          <div className="w-full h-full rounded-full bg-white flex items-center justify-center font-bold text-xs">
+        <div className="size-10 rounded-full bg-linear-to-tr from-yellow-400 via-red-500 to-purple-600 p-[2px]">
+          <div className="size-full rounded-full bg-primary flex items-center justify-center font-bold text-xs">
             {post.authorId.slice(0, 2)}
           </div>
         </div>
